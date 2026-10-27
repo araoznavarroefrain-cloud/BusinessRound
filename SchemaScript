@@ -1,0 +1,68 @@
+CREATE TABLE public.business_round_participants (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  company_name text NOT NULL CHECK (char_length(TRIM(BOTH FROM company_name)) >= 2 AND char_length(TRIM(BOTH FROM company_name)) <= 150),
+  contact_name text NOT NULL CHECK (char_length(TRIM(BOTH FROM contact_name)) >= 2 AND char_length(TRIM(BOTH FROM contact_name)) <= 120),
+  email text CHECK (char_length(TRIM(BOTH FROM email)) >= 5 AND char_length(TRIM(BOTH FROM email)) <= 180),
+  phone text NOT NULL CHECK (char_length(TRIM(BOTH FROM phone)) >= 7 AND char_length(TRIM(BOTH FROM phone)) <= 30),
+  offer text NOT NULL CHECK (char_length(TRIM(BOTH FROM offer)) >= 3 AND char_length(TRIM(BOTH FROM offer)) <= 1000),
+  demand text NOT NULL CHECK (char_length(TRIM(BOTH FROM demand)) >= 3 AND char_length(TRIM(BOTH FROM demand)) <= 1000),
+  published boolean NOT NULL DEFAULT false,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  user_id uuid,
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  objectives ARRAY NOT NULL DEFAULT '{}'::text[] CHECK (objectives <@ ARRAY['comprar'::text, 'vender'::text, 'proveedores'::text, 'clientes'::text, 'distribuidores'::text, 'socios'::text, 'inversionistas'::text, 'mercados'::text, 'contactos'::text]),
+  sector text NOT NULL DEFAULT ''::text CHECK (sector = ''::text OR char_length(TRIM(BOTH FROM sector)) >= 2 AND char_length(TRIM(BOTH FROM sector)) <= 100),
+  directory_consent_version integer NOT NULL DEFAULT 1 CHECK (directory_consent_version = ANY (ARRAY[1, 2])),
+  provenance text NOT NULL DEFAULT ''::text CHECK (char_length(TRIM(BOTH FROM provenance)) <= 120),
+  email_notifications boolean NOT NULL DEFAULT true,
+  whatsapp_notifications boolean NOT NULL DEFAULT false,
+  CONSTRAINT business_round_participants_pkey PRIMARY KEY (id),
+  CONSTRAINT business_round_participants_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
+);
+CREATE TABLE public.business_round_meetings (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  requester_id uuid NOT NULL,
+  invitee_id uuid NOT NULL,
+  meeting_date date NOT NULL,
+  meeting_time time without time zone NOT NULL,
+  status text NOT NULL DEFAULT 'pendiente'::text CHECK (status = ANY (ARRAY['pendiente'::text, 'alternativa'::text, 'confirmada'::text, 'rechazada'::text, 'vencida'::text, 'cancelada'::text])),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  origin text NOT NULL DEFAULT 'manual'::text CHECK (origin = ANY (ARRAY['manual'::text, 'automatico'::text])),
+  affinity_score integer CHECK (affinity_score IS NULL OR affinity_score >= 0),
+  duration_minutes integer NOT NULL DEFAULT 30 CHECK (duration_minutes >= 10 AND duration_minutes <= 60),
+  proposed_by uuid,
+  table_number integer CHECK (table_number IS NULL OR table_number >= 1 AND table_number <= 100),
+  cancelled_at timestamp with time zone,
+  cancelled_by uuid,
+  cancellation_reason text,
+  CONSTRAINT business_round_meetings_pkey PRIMARY KEY (id),
+  CONSTRAINT business_round_meetings_requester_id_fkey FOREIGN KEY (requester_id) REFERENCES public.business_round_participants(id),
+  CONSTRAINT business_round_meetings_invitee_id_fkey FOREIGN KEY (invitee_id) REFERENCES public.business_round_participants(id),
+  CONSTRAINT business_round_meetings_proposed_by_fkey FOREIGN KEY (proposed_by) REFERENCES public.business_round_participants(id),
+  CONSTRAINT business_round_meetings_cancelled_by_fkey FOREIGN KEY (cancelled_by) REFERENCES auth.users(id)
+);
+CREATE TABLE public.business_round_settings (
+  id boolean NOT NULL DEFAULT true CHECK (id),
+  meeting_dates ARRAY NOT NULL DEFAULT ARRAY['2026-12-08'::date, '2026-12-09'::date] CHECK (cardinality(meeting_dates) >= 1 AND cardinality(meeting_dates) <= 4),
+  start_time time without time zone NOT NULL DEFAULT '08:30:00'::time without time zone,
+  end_time time without time zone NOT NULL DEFAULT '16:00:00'::time without time zone,
+  meeting_minutes integer NOT NULL DEFAULT 20 CHECK (meeting_minutes >= 10 AND meeting_minutes <= 60),
+  transition_minutes integer NOT NULL DEFAULT 5 CHECK (transition_minutes >= 0 AND transition_minutes <= 30),
+  table_count integer NOT NULL DEFAULT 10 CHECK (table_count >= 1 AND table_count <= 100),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_by uuid,
+  CONSTRAINT business_round_settings_pkey PRIMARY KEY (id),
+  CONSTRAINT business_round_settings_updated_by_fkey FOREIGN KEY (updated_by) REFERENCES auth.users(id)
+);
+CREATE TABLE public.business_round_meeting_outcomes (
+  meeting_id uuid NOT NULL,
+  participant_id uuid NOT NULL,
+  outcome text NOT NULL CHECK (outcome = ANY (ARRAY['contacto'::text, 'cotizacion'::text, 'negociacion'::text, 'acuerdo'::text, 'seguimiento'::text, 'sin_avance'::text])),
+  next_step text CHECK (next_step IS NULL OR char_length(next_step) <= 1000),
+  follow_up_on date,
+  notes text CHECK (notes IS NULL OR char_length(notes) <= 1000),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT business_round_meeting_outcomes_pkey PRIMARY KEY (meeting_id, participant_id),
+  CONSTRAINT business_round_meeting_outcomes_meeting_id_fkey FOREIGN KEY (meeting_id) REFERENCES public.business_round_meetings(id),
+  CONSTRAINT business_round_meeting_outcomes_participant_id_fkey FOREIGN KEY (participant_id) REFERENCES public.business_round_participants(id)
+);
