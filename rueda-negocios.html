@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#07164f">
+  <title>Panel de participantes | Tarija Produce 2026</title>
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="usuario.css">
+  <link rel="stylesheet" href="rueda-negocios.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="authView" class="login-shell">
+    <div class="login-card account-card round-login-card">
+      <img src="assets/logo-feria.webp" alt="Tarija Produce 2026">
+      <p class="eyebrow">ACCESO PARA EMPRESAS</p>
+      <h1>Rueda de Negocios</h1>
+      <p>Usa tu cuenta de Google para administrar el perfil de tu empresa, buscar coincidencias y proponer reuniones.</p>
+      <div class="round-oauth-panel">
+        <button id="googleLogin" class="round-google-button" type="button">
+          <svg aria-hidden="true" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.91c-.58 2.96-2.26 5.48-4.76 7.18l7.73 6C44.39 37.95 46.98 31.85 46.98 24.55Z"/><path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.89.93 7.58 2.56 10.78l7.97-6.19Z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.9-5.8l-7.73-6c-2.14 1.44-4.88 2.3-8.17 2.3-6.26 0-11.57-4.22-13.46-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48Z"/></svg>
+          <span>Continuar con Google</span>
+        </button>
+        <p class="round-oauth-note">Si es tu primera vez, se creará tu cuenta al continuar. No necesitas una contraseña adicional.</p>
+      </div>
+      <p id="authStatus" class="status" role="status" aria-live="polite"></p>
+      <a href="index.html#rueda-negocios">← Volver al sitio</a>
+    </div>
+  </div>
+  <div id="participantView" hidden>
+    <header class="admin-top">
+      <div><span class="eyebrow">TARIJA PRODUCE 2026</span><h1>Rueda de Negocios</h1></div>
+      <div class="top-actions"><a class="btn ghost" href="index.html#rueda-negocios">Ver sitio</a><button id="logoutButton" class="btn danger" type="button">Cerrar sesión</button></div>
+    </header>
+    <main class="content account-content round-content">
+      <nav class="round-nav" aria-label="Navegación de la Rueda de Negocios">
+        <a href="#roundOverview">Resumen</a><a href="#roundProfile">Mi perfil</a><a href="#roundDirectory">Buscar empresas</a><a href="#roundMatches">Coincidencias</a><a href="#roundAgenda">Mis reuniones</a>
+      </nav>
+      <section id="roundOverview" class="round-overview" aria-label="Resumen de actividad">
+        <a class="round-overview-card" href="#roundProfile"><span>Perfil empresarial</span><strong id="roundProfileState">Pendiente</strong><small>Completa tu información para participar</small></a>
+        <a class="round-overview-card" href="#roundAgenda"><span>Por responder</span><strong id="roundPendingCount">0</strong><small>Invitaciones y horarios que esperan tu respuesta</small></a>
+        <a class="round-overview-card" href="#roundAgenda"><span>Próximas reuniones</span><strong id="roundUpcomingCount">0</strong><small id="roundNextMeeting">Agenda actualizada</small></a>
+      </section>
+      <section id="roundProfile" class="panel">
+        <div class="panel-head"><div><span class="eyebrow">PERFIL DE PARTICIPANTE</span><h2>Datos de la empresa</h2><p class="hint">El correo, la persona de contacto y el teléfono se reservan para la gestión. El directorio muestra empresa, rubro, oferta, demanda y objetivos comerciales.</p><p id="signedInEmail" class="hint"></p></div></div>
+        <form id="profileForm" class="grid2 round-profile-form">
+          <div class="round-profile-stepper full" aria-label="Pasos del perfil"><span class="is-current" data-step-indicator="0">1. Empresa</span><i></i><span data-step-indicator="1">2. Oferta y demanda</span><i></i><span data-step-indicator="2">3. Objetivos</span></div>
+          <div class="round-profile-step full" data-profile-step="0">
+          <label>Empresa<input required name="company_name" maxlength="150"></label>
+          <label>Rubro principal<select required name="sector"><option value="">Selecciona un rubro</option><option>Agroindustria</option><option>Agricultura y ganadería</option><option>Alimentos y bebidas</option><option>Vino y singani</option><option>Artesanía</option><option>Turismo y hotelería</option><option>Manufactura</option><option>Construcción</option><option>Automotriz</option><option>Inmobiliaria</option><option>Desarrollo Inmobiliario</option><option>Educación</option><option>Insumos</option><option>Tecnología</option><option>Servicios profesionales</option><option>Comercio</option><option>Transporte y logística</option><option value="otro">Otro rubro</option></select></label>
+          <label id="otherSectorField" hidden>Especifica el rubro<input name="sector_other" maxlength="80" placeholder="Ej.: energía renovable"></label>
+          <p class="hint full">Si no encuentras tu rubro, selecciona “Otro rubro” y especifícalo. La procedencia se registra con ciudad o municipio y departamento.</p>
+          <label>Departamento<select required name="provenance_department"><option value="">Selecciona un departamento</option><option>Tarija</option><option>Chuquisaca</option><option>La Paz</option><option>Cochabamba</option><option>Oruro</option><option>Potosí</option><option>Santa Cruz</option><option>Beni</option><option>Pando</option><option value="internacional">Fuera de Bolivia</option></select></label>
+          <label id="provenanceCountryField" hidden>País<input name="provenance_country" maxlength="40" placeholder="Ej.: Argentina"></label>
+          <label>Ciudad / municipio<input required name="provenance_city" maxlength="70" placeholder="Ej.: Yacuiba"></label>
+          <label>Persona de contacto<input required name="contact_name" maxlength="120"></label>
+          <label class="full">Teléfono / WhatsApp<input required name="phone" type="tel" maxlength="30"></label>
+          </div>
+          <div class="round-profile-step full" data-profile-step="1" hidden>
+          <label class="full">¿Qué oferta? Producto o servicio que ofrece<textarea required name="offer" rows="3" maxlength="1000"></textarea></label>
+          <label class="full">¿Qué demanda? Producto o servicio que busca, aunque sea distinto de su oferta<textarea required name="demand" rows="3" maxlength="1000"></textarea></label>
+          </div>
+          <div class="round-profile-step full" data-profile-step="2" hidden>
+          <fieldset class="full round-objectives"><legend>Objetivos comerciales <span>(selecciona todos los que correspondan)</span></legend><div class="round-objective-grid">
+            <label><input type="checkbox" name="objectives" value="comprar"> Comprar productos o servicios</label>
+            <label><input type="checkbox" name="objectives" value="vender"> Vender productos o servicios</label>
+            <label><input type="checkbox" name="objectives" value="proveedores"> Encontrar proveedores</label>
+            <label><input type="checkbox" name="objectives" value="clientes"> Conseguir nuevos clientes</label>
+            <label><input type="checkbox" name="objectives" value="distribuidores"> Buscar distribuidores o representantes</label>
+            <label><input type="checkbox" name="objectives" value="socios"> Encontrar socios estratégicos</label>
+            <label><input type="checkbox" name="objectives" value="inversionistas"> Buscar inversionistas o financiamiento</label>
+            <label><input type="checkbox" name="objectives" value="mercados"> Explorar nuevos mercados</label>
+            <label><input type="checkbox" name="objectives" value="contactos"> Ampliar su red de contactos</label>
+          </div></fieldset>
+          <label class="full round-consent"><input required type="checkbox" name="consent"> Acepto que otras empresas inscritas vean el nombre de mi empresa, rubro, oferta, demanda y objetivos comerciales para encontrar coincidencias. Mi persona de contacto, correo y teléfono no se mostrarán.</label>
+          <fieldset class="full round-notifications"><legend>Avisos de reuniones</legend><label><input type="checkbox" name="email_notifications" checked> Recibir avisos operativos por correo sobre solicitudes, respuestas, confirmaciones y cambios de horario.</label><label><input type="checkbox" name="whatsapp_notifications"> Acepto recibir esos avisos por WhatsApp al número registrado. El envío requiere que la Fundación active el servicio.</label></fieldset>
+          </div>
+          <div class="round-profile-actions full"><button id="profileBack" class="btn ghost" type="button" hidden>Anterior</button><span id="profileStepLabel">Paso 1 de 3</span><button id="profileNext" class="btn primary" type="button">Continuar</button><button class="btn primary" type="submit" hidden>Guardar perfil</button></div>
+          <p id="profileStatus" class="status full" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+      <section id="roundDirectory" class="panel">
+        <div class="panel-head"><div><span class="eyebrow">DIRECTORIO EMPRESARIAL</span><h2>Buscar empresas</h2><p class="hint">Busca por nombre, rubro, productos o servicios ofrecidos y buscados, y objetivos comerciales. Solo aparecen perfiles que autorizaron su publicación.</p></div></div>
+        <form id="companySearchForm" class="toolbar round-search"><input name="query" type="search" minlength="2" placeholder="Nombre, producto, servicio o interés comercial"><select name="sector" aria-label="Filtrar por rubro"><option value="">Todos los rubros</option></select><select name="department" aria-label="Filtrar por departamento"><option value="">Todos los departamentos</option><option>Tarija</option><option>Chuquisaca</option><option>La Paz</option><option>Cochabamba</option><option>Oruro</option><option>Potosí</option><option>Santa Cruz</option><option>Beni</option><option>Pando</option><option value="internacional">Fuera de Bolivia</option></select><button class="btn primary" type="submit">Buscar empresas</button></form>
+        <p id="directoryStatus" class="status" role="status" aria-live="polite"></p>
+        <div id="directoryResults" class="round-results"></div>
+      </section>
+      <section id="roundMatches" class="panel">
+        <div class="panel-head"><div><span class="eyebrow">EMPAREJAMIENTO AUTOMÁTICO</span><h2>Empresas compatibles</h2><p class="hint">Ordenamos las empresas por coincidencias entre oferta, demanda, rubro y objetivos comerciales. Los datos de contacto no aparecen en los resultados.</p></div></div>
+        <p id="searchStatus" class="status" role="status" aria-live="polite"></p>
+        <div id="matchResults" class="round-results"></div>
+      </section>
+      <section id="roundAgenda" class="panel">
+        <div class="panel-head"><div><span class="eyebrow">AGENDA</span><h2>Mis reuniones</h2><p class="hint">Primero verás las solicitudes que requieren respuesta; luego tus reuniones confirmadas y el historial.</p></div></div>
+        <p id="myMeetingsStatus" class="round-status" role="status" aria-live="polite"></p><div id="myMeetings" class="operation-list"><div class="empty">Cargando tus reuniones…</div></div>
+      </section>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="supabase-client.js"></script>
+  <script src="rueda-negocios.js"></script>
+</body>
+</html>
